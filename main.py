@@ -36,13 +36,9 @@ def single_word_bins(tks, vocab):
     word_freqs = [(word, c[word]) for word in vocab]
     word_freqs.sort(key = itemgetter(1, 0))
 
-    frequencies = [freq for (word, freq) in word_freqs]
-    max_freq = max(frequencies)
-    word_freq_normalized = [(word, round(freq / max_freq, 5)) for (word, freq) in words_freq]
-
     words = [word for (word, freq) in word_freqs]
-    dataset_length = len(word_freq_normalized)
-    part_length = dataset_length // 3
+    data_len = len(word_freqs)
+    part_length = data_len // 3
     high = words[2 * part_length:]
     high_bounds = (c[high[0]], c[high[-1]])
     mid = words[part_length:2 * part_length]
@@ -50,6 +46,7 @@ def single_word_bins(tks, vocab):
     low = words[:part_length]
     low_bounds = (c[low[0]], c[low[-1]])
     return high, mid, low, high_bounds, mid_bounds, low_bounds
+
 
 corpus = api.load("wiki-english-20171001")
 
