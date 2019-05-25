@@ -1,0 +1,9 @@
+name: corpus-sizes
+dependencies:
+    - nltk
+    - gensim
+    - pandas
+    - tqdm
+    - matplotlib
+    - pip:
+        - git+https://github.com/kudkudak/word-embeddings-benchmarks

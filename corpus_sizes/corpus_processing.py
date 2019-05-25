@@ -10,7 +10,7 @@ nltk.download('punkt')
 
 
 def corpus_processing(corpus, words_count, random_articles):
-    filename = "Texts/sentences_" + SIZES_MAP[words_count] + ".txt"
+    filename = "./Texts/sentences_" + SIZES_MAP[words_count] + ".txt"
     result = []
     item = iter(corpus)
     i = 0
@@ -28,7 +28,7 @@ def corpus_processing(corpus, words_count, random_articles):
                 for sentence in sentences:
                     i += make_tokens(result, sentence)
         result = result if len(result) <= words_count else result[:words_count]
-        with open(filename, "w+") as file:
+        with open(filename, "w") as file:
             file.write(str(result))
         print("Sentences file written")
     except StopIteration:

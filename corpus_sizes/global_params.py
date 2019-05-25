@@ -12,10 +12,10 @@ SIZES_MAP = {
        1000000: "1M"  ,
        5000000: "5M"  ,
       10000000: "10M" ,
-      50000000: "50M" ,
-     100000000: "100M",
-     500000000: "500M",
-    1000000000: "1B"  ,
+      #50000000: "50M" ,
+     #100000000: "100M",
+     #500000000: "500M",
+    #1000000000: "1B"  ,
 }
 
 # Word window size
@@ -26,7 +26,18 @@ WORD_WINDOWS = [
 ]
 
 # Use models made before
-USE_CACHED = True
+USE_CACHED = False
 
 # Randomize the articles' order and their sentences
 RANDOMIZE_ARTICLES = True
+
+# Datasets that are going to be used for evaluation
+USE_DATASETS = [
+    'MEN',
+    'MTurk',
+    'RG65',
+    'RW',
+    'SimLex999',
+    'TR9856',
+    'WS353'
+]
