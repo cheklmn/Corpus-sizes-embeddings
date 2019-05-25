@@ -22,8 +22,9 @@ Install packages from environment.ymd.
 Configure project by editing global_params.py
 
 ## Results
-
+Currently result include only Spearman coefficient on various datasets, including both similarity and analogy (see [Results/w2v5M_10.csv](Results/w2v5M_10.csv) for example
 
 ## Next steps
 * Move to Python 3
 * Include analogy datasets for testing word frequencies
+* Add visualization of results
