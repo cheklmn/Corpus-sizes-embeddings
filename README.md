@@ -4,9 +4,11 @@ term frequencies on the accuracy of word embeddings trained on those corpora
 
 ## Introduction
 In the application, the text from english Wikipedia corpus was used. 
-The idea is to train models on corpus slices of different size as well as 
-
-To determine the effect corpus size has on the word embedding, 
+The idea is to train models on corpus slices of different size and then evaluate the model on various datasets
+To test word frequencies influence, the following approach is taken:
+* Word pairs from a dataset are placed into Low, Mid, High bins, based on their frequency in the dataset
+* Word pairs from the dataset then are place into Low, Mid, High and Mixed bins, based on the frequency of words in the pair
+* After that the Spearman coefficient is calculated for the model
 
 ## Requirements
 The project requires Python 2.7 and following packages to be installed:
@@ -28,3 +30,4 @@ Currently result include only Spearman coefficient on various datasets, includin
 * Move to Python 3
 * Include analogy datasets for testing word frequencies
 * Add visualization of results
+* Include different embedding settings
