@@ -1,9 +1,15 @@
+# Embedding model
+USE_EMBEDDING = [
+    #'ftext',
+    'w2v'
+]
+
 # Word counts for models
 SIZES = [
-    #1000000,
-    #5000000,
-    #10000000,
-    50000000,
+    1000000,
+    5000000,
+    10000000,
+    #50000000,
     #100000000,
     #500000000,
     #1000000000
@@ -20,13 +26,20 @@ SIZES_MAP = {
 
 # Word window size
 WORD_WINDOWS = [
-    #3,
-    #5,
-    10
+    2,
+    5,
+    10,
+    #15
+]
+
+#Vector dimension size
+DIMENSION = [
+    100,
+    #300
 ]
 
 # Use models made before
-USE_CACHED = True
+USE_CACHED = False
 
 # Randomize the articles' order and their sentences
 RANDOMIZE_ARTICLES = True
@@ -43,4 +56,18 @@ USE_DATASETS = [
 ]
 
 # Use skip-grams(True) or CBOW(False):
-SKIP_GRAMS = True
+SKIP_GRAMS = False
+
+SG_MAP = {
+    True: "SG",
+    False: "CB"
+}
+
+# Use negative sampling or hierarchical softmax
+SAMPLING = 'ns' # 'hs' or 'ns'
+
+# Number of iterations for training
+EPOCHS = 10
+
+# Use cross-sentence word windows
+CROSS_SENTENCE = True

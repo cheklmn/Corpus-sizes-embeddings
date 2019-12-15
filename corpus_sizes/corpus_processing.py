@@ -22,13 +22,25 @@ def corpus_processing(corpus, words_count, random_articles):
                     current = next(item)
             else:
                 current = next(item)
-
-            for paragraph in current["section_texts"]:
-                sentences = sent_tokenize(paragraph)
-                for sentence in sentences:
-                    i += make_tokens(result, sentence)
+            if CROSS_SENTENCE:
+                for paragraph in current["section_texts"]:
+                    sentences = sent_tokenize(paragraph)
+                    sent = []
+                    j = 0
+                    for sentence in sentences:
+                        sent.append(sentence)
+                        j += 1
+                        if j == len(sentences) or j == 10:
+                            i += make_tokens(result, ' '.join(sent))
+                            sent = []
+                            j = 0
+            else:
+                for paragraph in current["section_texts"]:
+                    sentences = sent_tokenize(paragraph)
+                    for sentence in sentences:
+                        i += make_tokens(result, sentence)
         result = result if len(result) <= words_count else result[:words_count]
-        with open(filename, "w") as file:
+        with open(filename, "w", encoding='utf8') as file:
             file.write(str(result))
         print("Sentences file written")
     except StopIteration:
