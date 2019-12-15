@@ -11,7 +11,7 @@ To test word frequencies influence, the following approach is taken:
 * After that the Spearman coefficient is calculated for the model
 
 ## Requirements
-The project requires Python 2.7 and following packages to be installed:
+The project requires Python 3.7 and following packages to be installed:
 * nltk
 * gensim
 * pandas
@@ -27,7 +27,6 @@ Configure project by editing global_params.py
 Currently result include only Spearman coefficient on various datasets, including both similarity and analogy (see [Results/w2v5M_10.csv](Results/w2v5M_10.csv) for example
 
 ## Next steps
-* Move to Python 3
 * Include analogy datasets for testing word frequencies
 * Add visualization of results
 * Include different embedding settings
