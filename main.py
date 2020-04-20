@@ -9,7 +9,9 @@ from gensim.models import KeyedVectors
 
 from web.embedding import Embedding
 from web.datasets.similarity import fetch_MEN, fetch_MTurk, fetch_RG65, fetch_RW, fetch_SimLex999, fetch_TR9856, fetch_WS353
+from web.datasets.analogy import fetch_google_analogy, fetch_msr_analogy, fetch_wordrep
 from web.evaluate import evaluate_similarity
+from analogy_solver import evaluate_analogy
 
 
 from collections import Counter
@@ -39,6 +41,10 @@ def get_dataset(dataset_name):
         return fetch_RW()
     elif dataset_name == "TR9856":
         return fetch_TR9856()
+    elif dataset_name == "MSR":
+        return fetch_msr_analogy()
+    elif dataset_name == "Google":
+        return fetch_google_analogy()
     else:
         raise Exception("{}: dataset not supported".format(dataset_name))
 
@@ -144,6 +150,33 @@ def save_results(embedding_type, gen_similarity, low_similarity, mid_similarity,
     print(df)
 
 
+def save_analogy_results(embedding_type, score, dim, ww, dataset_name, corpus_size):
+    method = "SG" if SKIP_GRAMS else "CBOW"
+    cross_sent = "Yes" if CROSS_SENTENCE else "No"
+    results_file = './Results/Results_analogy.pickle'
+
+    if os.path.isfile(results_file):
+        df = pd.read_pickle(results_file)
+    else:
+        df = pd.DataFrame()
+    df = df.append(pd.DataFrame({
+        "Embedding": embedding_type,
+        "Method": method,
+        "Time": datetime.datetime.now(),
+        "Dimension": dim,
+        "Window": ww,
+        "Word count": corpus_size,
+        "Sampling": SAMPLING,
+        "Cross-sentence": cross_sent,
+        "Epochs": str(EPOCHS),
+        "Dataset": dataset_name,
+        "Score": score,
+    }, index=[0]), ignore_index=True)
+
+    df.to_pickle(results_file)
+    print(df)
+
+
 def evaluate_w2v(data, current_model, similarity_pairs):
 
     general_similarity = evaluate_similarity(current_model, data.X, data.y)
@@ -182,11 +215,15 @@ def evaluate_fasttext(current_model, X, y):
     return scipy.stats.spearmanr(scores, y).correlation, oov_pairs
 
 
+def evaluate_w2v_analogy(datset, data, sentences, vocabulary, emb_model, model_dimension, model_window, model_wordcount):
+    model_results = evaluate_analogy(embedding_model, data.X, data.y)
+    save_analogy_results('w2v', model_results, model_dimension, model_window, datset, model_wordcount)
+
 def evaluation(datset, data, sentences, vocabulary, emb_model, model_type, model_dimension, model_window, model_wordcount):
     high, mid, low, high_bounds, mid_bounds, low_bounds, out_of_voc = single_word_bins(sentences, vocabulary)
     pair_similarity = pair_bins(low, mid, high, data)
 
-    if model_type =='w2v':
+    if model_type == 'w2v':
         model_general_similarity, model_low_similarity, model_mid_similarity, \
             model_high_similarity, model_mixed_similarity = evaluate_w2v(data, emb_model, pair_similarity)
         save_results('w2v', model_general_similarity, model_low_similarity, model_mid_similarity, model_high_similarity,
@@ -249,7 +286,6 @@ for word_count in SIZES:
                         model.build_vocab(sentences = sents)
                         model.train(sentences = sents, total_examples = len(sents), epochs = EPOCHS)
                         model.save(model_filename)
-                        FastText.load
                         # model.vocabulary.save(vocab_filename)
 
                     print("Model saved at " + model_filename)
@@ -267,7 +303,10 @@ for word_count in SIZES:
                         vocab.add(pair[0])
                         vocab.add(pair[1])
 
-                    evaluation(dset, dataset, sents, vocab, embedding_model, embedding, dimension, word_window, word_count)
+                    if dset in ['Google', 'MSR']:
+                        evaluate_w2v_analogy(dset, dataset, sents, vocab, embedding_model, dimension, word_window, word_count)
+                    else:
+                        evaluation(dset, dataset, sents, vocab, embedding_model, embedding, dimension, word_window, word_count)
                     # high, mid, low, high_bounds, mid_bounds, low_bounds, out_of_voc = single_word_bins(sents, vocab)
                     # pair_similarity = pair_bins(low, mid, high, dataset)
                     #

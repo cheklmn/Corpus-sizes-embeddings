@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 from plot_params import *
 from matplotlib.backends.backend_pdf import PdfPages
 
-with PdfPages('reporttest.pdf') as pp:
-    df = pd.read_pickle('Results.pickle')
-    df.to_csv('results.csv')
+with PdfPages('reportanalogy.pdf') as pp:
+    df = pd.read_pickle('Results_analogy.pickle')
+    df.to_csv('results_analogy.csv')
 
     for i, size in enumerate(df['Word count']):
         df['Word count'][i] = size // 1000000
@@ -43,12 +43,10 @@ with PdfPages('reporttest.pdf') as pp:
 
             for ax in axes.flat:
                 ax.set(xlabel=dimensions[0])
-            axes.flat[0].set(ylabel="Spearman coefficient")
+            axes.flat[0].set(ylabel="Score")
 
             title = ''
             for i in range(len(fixed_dims)):
-                # print(index[i])
-                # print(fixed_dims[i])
                 title += fixed_dims[i] + ": " + str(index[i]) + ';'
                 if i % 2 != 0:
                     title += '\n'
@@ -111,17 +109,17 @@ with PdfPages('reporttest.pdf') as pp:
     #     df.reset_index(inplace=True)
 
     print(df.head())
-    df_counts = df.groupby("Dataset").mean()
-    plot_counts = df_counts.reset_index().plot(
-        x = "Dataset",
-        y = [
-            "Low bin pair count",
-            "Middle bin pair count",
-            "High bin pair count",
-            "Mixed bin pair count"
-            ],
-        kind = "barh"
-    )
-    plt.ylabel("")
-    plt.title("Counts of words pairs for each dataset")
-    pp.savefig(bbox_inches="tight")
+    # df_counts = df.groupby("Dataset").mean()
+    # plot_counts = df_counts.reset_index().plot(
+    #     x = "Dataset",
+    #     y = [
+    #         "Low bin pair count",
+    #         "Middle bin pair count",
+    #         "High bin pair count",
+    #         "Mixed bin pair count"
+    #         ],
+    #     kind = "barh"
+    # )
+    # plt.ylabel("")
+    # plt.title("Counts of words pairs for each dataset")
+    # pp.savefig(bbox_inches="tight")

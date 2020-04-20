@@ -34,8 +34,8 @@ WORD_WINDOWS = [
 
 #Vector dimension size
 DIMENSION = [
-    100,
-    #300
+    #100,
+    300
 ]
 
 # Use models made before
@@ -46,13 +46,15 @@ RANDOMIZE_ARTICLES = True
 
 # Datasets that are going to be used for evaluation
 USE_DATASETS = [
-    'MEN',
-    'MTurk',
-    'RG65',
-    'RW',
-    'SimLex-999',
-    'TR9856',
-    'WS353'
+    #'MEN',
+    #'MTurk',
+    #'RG65',
+    #'RW',
+    #'SimLex-999',
+    #'TR9856',
+    #'WS353',
+    'Google',
+    'MSR'
 ]
 
 # Use skip-grams(True) or CBOW(False):
